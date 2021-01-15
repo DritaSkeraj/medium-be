@@ -17,6 +17,7 @@ const {
 const server = express()
 
 const articlesRouter = require("./services/Articles")
+const authorsRouter = require("./services/Author")
 const port = process.env.PORT || 3002
 const publicFolderPath = join(__dirname, "../public")
 
@@ -25,6 +26,7 @@ server.use(express.json())
 server.use(express.static(publicFolderPath))
 
 server.use("/articles", articlesRouter)
+server.use("/authors", authorsRouter)
 
 // ERROR HANDLERS
 
