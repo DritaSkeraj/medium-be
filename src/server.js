@@ -17,17 +17,11 @@ const {
 const server = express()
 
 const articlesRouter = require("./services/Articles")
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3002
 const publicFolderPath = join(__dirname, "../public")
-
-const loggerMiddleware = (req, res, next) => {
-  console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
-  next()
-}
 
 server.use(cors())
 server.use(express.json())
-server.use(loggerMiddleware)
 server.use(express.static(publicFolderPath))
 
 server.use("/articles", articlesRouter)
