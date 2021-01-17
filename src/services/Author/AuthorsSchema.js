@@ -1,7 +1,7 @@
 const {Schema} = require("mongoose");
 const mongoose = require("mongoose")
 
-const AuthorSchema = new Schema({
+const AuthorModel = new Schema({
     name: {
         type: String,
         required: true,
@@ -13,5 +13,5 @@ const AuthorSchema = new Schema({
     }
 });
 
-//this is a model not a schema
-module.exports = mongoose.model("Author", AuthorSchema);
+//schema exported as a model
+module.exports = mongoose.model("Author", AuthorModel);
