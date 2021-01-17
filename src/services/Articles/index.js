@@ -3,6 +3,7 @@ const router = express.Router();
 const ArticlesModel = require("./schema");
 const AuthorModel = require("../Author/AuthorsSchema");
 const mongoose = require("mongoose");
+const q2m = require("query-to-mongo")
 
 router.post("/", async (req, res, next) => {
   try {
@@ -17,8 +18,14 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const articles = await ArticlesModel.find().populate("author"); //sends author object too
-    res.status(200).send({ articles });
+    const query = q2m(req.query)
+    const total = await ArticlesModel.countDocuments(query.criteria)
+    const articles = await ArticlesModel.find(query.criteria, query.options.fields).populate("author") //sends author object toObject
+        .sort(query.options.sort)
+        .skip(query.options.skip)
+        .limit(query.options.limit)
+
+    res.status(200).send({ links: query.links("/articles", total), articles });
   } catch (error) {
     console.log(error);
     next(error);
